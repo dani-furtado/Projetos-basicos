@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Adivinhação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .container h1 {
+            margin-bottom: 20px;
+        }
+        .container input[type="number"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: #0056b3;
+        }
+        .container #dica {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .container #registroPalpites {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Jogo de Adivinhação</h1>
+        <p>Tente adivinhar um número entre 1 e 100:</p>
+        <input type="number" id="palpite" placeholder="Digite seu palpite">
+        <button onclick="verificarPalpite()">Verificar</button>
+        <div id="dica"></div>
+        <div id="registroPalpites"></div>
+    </div>
+
+    <script>
+        // Gera um número aleatório entre 1 e 100
+        const numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+        let tentativas = 0;
+        const palpitesRegistrados = []; // Array para armazenar os palpites
+
+        function verificarPalpite() {
+            const palpiteInput = document.getElementById('palpite');
+            const palpite = parseInt(palpiteInput.value);
+            const dica = document.getElementById('dica');
+            const registroPalpites = document.getElementById('registroPalpites');
+
+            if (isNaN(palpite) || palpite < 1 || palpite > 100) {
+                dica.innerText = 'Por favor, insira um número válido entre 1 e 100.';
+                dica.style.color = 'red';
+                return;
+            }
+
+            // Adiciona o palpite ao registro
+            palpitesRegistrados.push(palpite);
+            registroPalpites.innerText = `Palpites anteriores: ${palpitesRegistrados.join(', ')}`;
+
+            tentativas++;
+
+            if (palpite === numeroAleatorio) {
+                dica.innerText = `Parabéns! Você acertou em ${tentativas} tentativas.`;
+                dica.style.color = 'green';
+                palpiteInput.disabled = true;
+            } else {
+                const diferenca = Math.abs(numeroAleatorio - palpite);
+                if (diferenca <= 5) {
+                    if (palpite < numeroAleatorio) {
+                        dica.innerText = 'Está muito próximo, um pouco mais!';
+                    } else {
+                        dica.innerText = 'Está muito próximo, um pouco menos!';
+                    }
+                    dica.style.color = 'orange';
+                } else if (palpite < numeroAleatorio) {
+                    dica.innerText = 'Muito baixo! Tente novamente.';
+                    dica.style.color = 'red';
+                } else {
+                    dica.innerText = 'Muito alto! Tente novamente.';
+                    dica.style.color = 'red';
+                }
+            }
+
+            // Limpa o campo de entrada e devolve o foco para ele
+            palpiteInput.value = '';
+            palpiteInput.focus();
+        }
+    </script>
+</body>
+</html>
