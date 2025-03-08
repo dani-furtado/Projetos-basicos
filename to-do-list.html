@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List com Checkbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <input type="text" id="tarefaInput" placeholder="Digite uma nova tarefa">
+        <button onclick="adicionarTarefa()">Adicionar</button>
+        <ul id="listaTarefas"></ul>
+    </div>
+
+    <script>
+        function adicionarTarefa() {
+            const input = document.getElementById('tarefaInput');
+            const tarefaTexto = input.value.trim();
+
+            if (tarefaTexto === '') {
+                alert('Por favor, insira uma tarefa válida.');
+                return;
+            }
+
+            const listaTarefas = document.getElementById('listaTarefas');
+
+            // Cria um novo item da lista
+            const li = document.createElement('li');
+
+            // Cria a checkbox
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.onchange = function() {
+                if (this.checked) {
+                    span.classList.add('completed'); // Risca o texto
+                } else {
+                    span.classList.remove('completed'); // Remove o risco
+                }
+            };
+
+            // Adiciona o texto da tarefa
+            const span = document.createElement('span');
+            span.textContent = tarefaTexto;
+
+            // Botão para remover a tarefa
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = 'Remover';
+            removeBtn.className = 'remove-btn';
+            removeBtn.onclick = function() {
+                listaTarefas.removeChild(li); // Remove o item da lista
+            };
+
+            // Adiciona a checkbox, o texto e o botão ao item da lista
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            li.appendChild(removeBtn);
+
+            // Adiciona o item à lista
+            listaTarefas.appendChild(li);
+
+            // Limpa o campo de entrada
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
